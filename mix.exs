@@ -46,7 +46,8 @@ defmodule UeberauthWordpress.MixProject do
     [
       files: ["lib", "mix.exs", "README.md", "LICENSE"],
       maintainers: ["Derek Zhou"],
-      licenses: ["MIT"]
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/derek-zhou/ueberauth_wordpress"}
     ]
   end
 end
