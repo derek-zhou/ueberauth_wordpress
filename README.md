@@ -34,16 +34,6 @@ config :ueberauth, Ueberauth.Strategy.Wordpress.OAuth,
   client_secret: System.get_env("WORDPRESS_CLIENT_SECRET")
 ```
 
-## Calling
-
-Depending on the configured url you can initiate the request through:
-
-    /auth/wordpress?state=RANDOMSTRING
-
-Please note wordpress demands a state parameter. The strategy right now does not make use of it or check it, nevertheless, you need to pass something in.
-
-Another thing specific to wordpress is that it cannot have `redirect_uri` pre-configured, and has to take a value from the parameter. You need to make sure your app has its url configured correctly with the public facing URL. 
-
 ## License
 
 This software is released under the MIT license. Please refer to the LICENSE file for detail.
