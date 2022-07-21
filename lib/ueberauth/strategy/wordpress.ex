@@ -19,7 +19,7 @@ defmodule Ueberauth.Strategy.Wordpress do
   """
   def handle_request!(conn) do
     scopes = conn.params["scope"] || option(conn, :default_scope)
-    params = [scope: scopes, response_type: "code"]
+    params = with_state_param([scope: scopes, response_type: "code"], conn)
     opts = oauth_client_options_from_conn(conn)
     redirect!(conn, Ueberauth.Strategy.Wordpress.OAuth.authorize_url!(params, opts))
   end
@@ -146,7 +146,7 @@ defmodule Ueberauth.Strategy.Wordpress do
   end
 
   defp oauth_client_options_from_conn(conn) do
-    base_options = with_state_param([redirect_uri: callback_url(conn)], conn)
+    base_options = [redirect_uri: callback_url(conn)]
     request_options = conn.private[:ueberauth_request_options].options
 
     case {request_options[:client_id], request_options[:client_secret]} do
