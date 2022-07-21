@@ -6,6 +6,7 @@ defmodule Ueberauth.Strategy.Wordpress do
   use Ueberauth.Strategy,
     uid_field: :ID,
     default_scope: "auth",
+    send_redirect_uri: true,
     hd: nil,
     userinfo_endpoint: "https://public-api.wordpress.com/rest/v1/me/"
 
@@ -18,11 +19,7 @@ defmodule Ueberauth.Strategy.Wordpress do
   """
   def handle_request!(conn) do
     scopes = conn.params["scope"] || option(conn, :default_scope)
-
-    params =
-      [scope: scopes, response_type: "code"]
-      |> with_param(:state, conn)
-
+    params = [scope: scopes, response_type: "code"]
     opts = oauth_client_options_from_conn(conn)
     redirect!(conn, Ueberauth.Strategy.Wordpress.OAuth.authorize_url!(params, opts))
   end
@@ -148,12 +145,8 @@ defmodule Ueberauth.Strategy.Wordpress do
     end
   end
 
-  defp with_param(opts, key, conn) do
-    if value = conn.params[to_string(key)], do: Keyword.put(opts, key, value), else: opts
-  end
-
   defp oauth_client_options_from_conn(conn) do
-    base_options = [redirect_uri: callback_url(conn)]
+    base_options = with_state_param([redirect_uri: callback_url(conn)], conn)
     request_options = conn.private[:ueberauth_request_options].options
 
     case {request_options[:client_id], request_options[:client_secret]} do

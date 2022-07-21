@@ -10,7 +10,7 @@ by adding `ueberauth_wordpress` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ueberauth_wordpress, "~> 0.1.0"}
+    {:ueberauth_wordpress, "~> 0.2.0"}
   ]
 end
 ```
